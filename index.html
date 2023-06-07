@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App Sample</title>
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1em;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(55, 55, 55);
+        }
+
+        .text-body {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(109, 109, 109);
+            height: 85vh;
+            width: 80%;
+            padding: 1em;
+            gap: 0.5em;
+            overflow-y: scroll;
+        }
+
+        .message {
+            padding: 0.3em 0.5em;
+            border-radius: 0.2em;
+            font-size: 1.2em;
+            width: fit-content;
+        }
+
+        .user {
+            background-color: rgb(109, 175, 255);
+            align-self: flex-end;
+        }
+        .other {
+            background-color: greenyellow;
+            align-self: flex-start;
+        }
+        .notification {
+            background-color: rgb(255, 128, 0);
+            align-self: center;
+        }
+
+        .messager {
+            height: 10vh;
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input {
+            width: 85%;
+            padding: 1em;
+            border-radius: 0.4em 0 0 0.4em;
+            border: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        #clear,
+        #submit {
+            padding: 1em;
+            border-radius: 0 0.4em 0.4em 0;
+            border: none;
+            background-color: rgb(33, 156, 197);
+            color: white;
+            width: 5%;
+        }
+
+        #clear {
+            border-radius: 0;
+            border-right: 0.1em solid white;
+        }
+
+        #clear:active,
+        #submit:active {
+            opacity: 80%;
+        }
+    </style>
+    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+</head>
+
+<body>
+    <div class="text-body"></div>
+    <div class="messager">
+        <input id="message-input" type="text" />
+        <button id="clear">Clear</button>
+        <button id="submit">Enter</button>
+    </div>
+
+    <script>
+        const socket = io('ws://localhost:8080');
+
+        const textBody = document.querySelector('.text-body');
+        const submit = document.getElementById('submit');
+        const clear = document.getElementById('clear');
+        const input = document.getElementById('message-input');
+
+        socket.on('message', data => {
+            const {id, text} = JSON.parse(data);
+
+            if (id === localStorage.getItem('id')) {
+                textBody.innerHTML += `<div class="message user">${text}</div>`;
+            } else {
+                textBody.innerHTML += `<div class="message other">${text}</div>`;
+            }
+            textBody.scrollTop = textBody.scrollHeight; // Scroll down as messages appear
+        });
+
+        socket.on('id', (id) => {
+            localStorage.setItem('id', id);
+        });
+
+        socket.on('notification', (id) => {
+            if (id === localStorage.getItem('id')) {
+                textBody.innerHTML += '<div class="message notification">You joined this chat</div>';
+            } else {
+                textBody.innerHTML += `<div class="message notification">${id} joined this chat</div>`;
+            }
+        });
+
+        const sendMessage = () => {
+            const value = input.value;
+            if (value.trim() === "") return;
+
+            socket.emit('message', value);
+            input.value = '';
+        }
+
+        const clearMessage = () => {
+            if (!confirm("Are you sure you want to clear all messages")) return;
+            textBody.innerHTML = '';
+        }
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        submit.addEventListener('click', sendMessage);
+        clear.addEventListener('click', clearMessage);
+    </script>
+</body>
+
+</html>
