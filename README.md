@@ -13,7 +13,7 @@
 - Clone this repository
 - Install the following packages
    ```
-   npm install express ws socket.io
+   npm install express ws socket.io dotenv
    ```
 - Run the 1st command to run in dev mode. Run 2nd command to start the app:
    ```

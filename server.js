@@ -1,7 +1,18 @@
-const http = require('http').createServer();
+const express = require('express');
+const app = express();
+require('dotenv').config();
+
+const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: { origin: "*" }
 });
+
+// Import routers
+const clientPageRouter = require('./clientPageRouter');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(clientPageRouter);
 
 io.on('connection', (socket) => {
     const id = socket.id;
@@ -22,4 +33,5 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(8080, () => console.log('Listening on http://localhost:8080'));
+const PORT = process.env.PORT;
+http.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
