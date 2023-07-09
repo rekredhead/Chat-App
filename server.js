@@ -1,20 +1,8 @@
 const { PORT } = require('./config');
 const express = require('express');
 
-// Import Routers
-const clientPageRouter = require('./routers/clientPage');
-
+// Enable the websocket using an HTTP server
 const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Host the routers on the app
-app.use(clientPageRouter);
-
-app.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/chat`));
-
-/*
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: { origin: "*" }
@@ -38,4 +26,16 @@ io.on('connection', (socket) => {
         io.emit('message', JSON.stringify(data));
     });
 });
-*/
+
+// Import Routers
+const clientPageRouter = require('./routers/clientPage');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Host the routers on the app
+app.use(clientPageRouter);
+
+// I tried to use app.listen but that wouldn't work yet
+// Try to use the http server only for clientPageRouter
+http.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/chat`));
