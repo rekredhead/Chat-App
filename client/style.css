@@ -1,0 +1,85 @@
+* {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 1em;
+}
+
+body {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 0;
+   padding: 0;
+   background-color: rgb(55, 55, 55);
+}
+
+.text-body {
+   display: flex;
+   flex-direction: column;
+   background-color: rgb(109, 109, 109);
+   height: 85vh;
+   width: 80%;
+   padding: 1em;
+   gap: 0.5em;
+   overflow-y: scroll;
+}
+
+.message {
+   padding: 0.3em 0.5em;
+   border-radius: 0.2em;
+   font-size: 1.2em;
+   width: fit-content;
+}
+
+.user {
+   background-color: rgb(109, 175, 255);
+   align-self: flex-end;
+}
+
+.other {
+   background-color: greenyellow;
+   align-self: flex-start;
+}
+
+.notification {
+   background-color: rgb(255, 128, 0);
+   align-self: center;
+}
+
+.messager {
+   height: 10vh;
+   width: 80%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+input {
+   width: 85%;
+   padding: 1em;
+   border-radius: 0.4em 0 0 0.4em;
+   border: none;
+}
+
+input:focus {
+   outline: none;
+}
+
+#clear,
+#submit {
+   padding: 1em;
+   border-radius: 0 0.4em 0.4em 0;
+   border: none;
+   background-color: rgb(33, 156, 197);
+   color: white;
+   width: 5%;
+}
+
+#clear {
+   border-radius: 0;
+   border-right: 0.1em solid white;
+}
+
+#clear:active,
+#submit:active {
+   opacity: 80%;
+}

@@ -1,5 +1,8 @@
 # Todos
 - Make the site more neater and have a better design
+- Make the site work well basically using express
+- Plan how the development will proceed forward with all the other features
+- Make different features from different git branches
 
 # Full-Stack Chat App
 - Registration System

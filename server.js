@@ -1,18 +1,24 @@
+const { PORT } = require('./config');
 const express = require('express');
-const app = express();
-require('dotenv').config();
 
+// Import Routers
+const clientPageRouter = require('./routers/clientPage');
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Host the routers on the app
+app.use(clientPageRouter);
+
+app.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/chat`));
+
+/*
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: { origin: "*" }
 });
-
-// Import routers
-const clientPageRouter = require('./clientPageRouter');
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(clientPageRouter);
 
 io.on('connection', (socket) => {
     const id = socket.id;
@@ -32,6 +38,4 @@ io.on('connection', (socket) => {
         io.emit('message', JSON.stringify(data));
     });
 });
-
-const PORT = process.env.PORT;
-http.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+*/
