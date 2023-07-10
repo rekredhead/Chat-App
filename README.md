@@ -1,9 +1,8 @@
 # Todos
-- Make the site more neater and have a better design
-- Make the site work well basically using express
 - Plan how the development will proceed forward with all the other features
+- Create figma designs or wireframes of all pages before codingz
+- Make the site more neater and have a better design
 - Make different features from different git branches
-- Remove unused npm modules
 
 # Full-Stack Chat App
 - Registration System
@@ -13,9 +12,11 @@
 - Possible Video Chatting
 
 # Installation
-- Initialize your project using NPM
 - Clone this repository
-- Install all package using:
+   ```
+   git clone https://github.com/rekredhead/Chat-App.git
+   ```
+- Install all packages using:
    ```
    npm install
    ```
