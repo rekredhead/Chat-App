@@ -5,6 +5,7 @@ module.exports = (server) => {
       cors: { origin: "*" }
    });
 
+   // The code handles all websocket interactions 
    io.on('connection', (socket) => {
       const id = socket.id;
       console.log(`${id} connected`);
