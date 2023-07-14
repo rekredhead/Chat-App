@@ -7,10 +7,18 @@ app.use(express.json()); // Enable app to use JSON data
 app.use(express.urlencoded({ extended: true }));
 
 // Import Routers
-const clientPageRouter = require('./routers/chat/chatPage');
+const chatRouter = require('./routers/chat/chatPage');
+const loginRouter = require('./routers/login');
+const passwordResetRouter = require('./routers/passwordReset');
+const profileRouter = require('./routers/profile');
+const registrationRouter = require('./routers/registration');
 
 // Host the routers on the app
-app.use(clientPageRouter);
+app.use(chatRouter);
+app.use(loginRouter);
+app.use(passwordResetRouter);
+app.use(profileRouter);
+app.use(registrationRouter);
 
 // Listen to requests from users
 const server = app.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/chat`));

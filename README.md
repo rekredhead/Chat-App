@@ -1,10 +1,9 @@
 # Todos
-- Make a small video streaming/chat/viewing program to understand how it works before deciding project plan
-- Watch more about systems design
-- Plan how the development will proceed forward with all the other features
 - Include testing in the program as well
-- Create figma designs or wireframes of all pages before codingz
 - Make the site more neater and have a better design
+   - Have dark mode
+   - Nice animations
+   - Mobile responsive
 - Make different features from different git branches
 
 # Requirements
@@ -18,6 +17,7 @@
       }
       ```
    - Add sign-in data to database from a POST API
+      - Send messages to user if errors occur (e.g. duplication usernames)
    - Redirect user to login page
    - Use Auth0 only after making registry system
 - User Login / Authentication
@@ -37,8 +37,6 @@
    - Redirect user to chatroom
    - Use sessions first and then try using tokens (JWT) for learning only
 - Password reset
-   - User sees page with their username and email address ( disable text boxes )
-      - Fetch these data from the database using the userId from the user's session/token from a GET API
    - User enters their new password twice to the page
    - Server sends a random-generated code to the user's email
    - Server caches the userId and verification code and will remove it after 5 minutes
@@ -50,10 +48,6 @@
          - If yes, update the password of the user from the User table
          - If no, inform the user that the verification code is invalid
       - If no, inform user that the verification code has expired
-- Account deletion
-   - Users enter login data to account deletion page
-   - Check if login data matches data from database using DELETE API
-   - Remove the user from the database
 - User profile
    - Send profile data (if available) of user from database to profile page using GET API
    - Users enters (optional) profile data to profile page
