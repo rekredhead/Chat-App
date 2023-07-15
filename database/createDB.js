@@ -24,7 +24,6 @@ const messagesTableQuery = `${createTableIfNotExistQuery} MESSAGES(
    content VARCHAR(2000),
    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
-
 const dbTables = [ userTableQuery, profileTableQuery, messagesTableQuery ];
 
 // Establish a connection to local MySQL server 
@@ -64,9 +63,11 @@ connection.connect((err) => {
          if (err) throw err;
       });
    });
+
+   // Close the connection after everything is done
+   connection.end((err) => {
+      if (err) throw err;
+   });
 });
 
-module.exports = {
-   connection,
-   dbTables
-};
+module.exports = dbTables;
