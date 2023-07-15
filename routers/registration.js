@@ -1,35 +1,39 @@
 const express = require('express');
 const dbConnection = require('../database/dbConnection');
+const encryptPassword = require('./functions/encryptPassword');
 const router = express.Router();
 
 router.use('/registration', express.static("./client/registration-page"));
 
-router.post('/users/register', (req, res) => {
+router.post('/users/register', async(req, res) => {
    const { username, emailAddress, password } = req.body;
+   
+   const encryptedPassword = await encryptPassword(password);
 
-   if (!req.body) {
-      res.status(400).send({ message: "Fields are required" });
-      return;
-   }
-
-   // Hash and salt the password for encryption
-   const encryptedPassword = password;
-
-   const insertQuery = `INSERT INTO USER (
+   const insertUserQuery = `INSERT INTO USER (
       username, email, password
    ) VALUES (
       '${username}', '${emailAddress}', '${encryptedPassword}'
    )`;
 
-   dbConnection.query(insertQuery, (err) => {
+   dbConnection.query(insertUserQuery, (err) => {
       if (err) {
-         // Check if error refers to duplicate usernames
-         // Check if error refers to duplicate email addresses
-         // Send 400 message to user saying the error
+         const isUsernameAlreadyTaken = err.sqlMessage === `Duplicate entry '${username}' for key 'user.username'`;
+         const isEmailAddressAlreadyBeingUsed = err.sqlMessage === `Duplicate entry '${emailAddress}' for key 'user.email'`;
+         
+         if (isUsernameAlreadyTaken) {
+            res.status(400).send({message: "This username is already taken"});
+            return;
+         } else if (isEmailAddressAlreadyBeingUsed) {
+            res.status(400).send({message: "This email address is already being used"});
+            return;
+         } else {
+            throw err;
+         }
       }
 
-      console.log(`Added User: ${username}`);
-      // Redirect user to login page
+      res.status(200).send({message: `Registered user: ${username}`});
+      //res.redirect('/login');
    })
 });
 
