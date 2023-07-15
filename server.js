@@ -13,7 +13,7 @@ const passwordResetRouter = require('./routers/passwordReset');
 const profileRouter = require('./routers/profile');
 const registrationRouter = require('./routers/registration');
 
-// Host the routers on the app
+// Enable the routers on the app
 app.use(chatRouter);
 app.use(loginRouter);
 app.use(passwordResetRouter);

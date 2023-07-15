@@ -6,6 +6,38 @@
    - Mobile responsive
 - Make different features from different git branches
 
+# Full-Stack Chat App
+- Registration System
+- Login System
+- Verification System
+- Basic Chatting
+- Possible Video Chatting
+
+# API Endpoints
+## Users
+- POST users/register
+   - Register users to the app
+- POST users/login
+   - Login users to the app
+- POST users/password-reset
+   - Alter users passwords
+
+## Profiles
+- POST profiles/create
+   - Add profile data of user to database
+- PUT profiles/update
+   - Update profile data of user to database
+- GET profiles/users
+   - Get list of all usernames
+- GET profiles/users/:username
+   - Get profile data of a specific user from their username
+- GET profiles/me
+   - Get profile data of the current user (me)
+
+## Messages
+- POST messages/add
+   - Insert cached messages of chat to database (Messages table)
+
 # Requirements
 - User Registration
    - Users enters sign-in data to registration page
@@ -74,36 +106,27 @@
    - Users able to show live webcam video with audio (Video Chatting)
    - Activity tracking - users changing their password, sending messages, joining chats, etc. overtime
 
-# Data (from ChatGPT)
-User:
-   id: auto-incremented, primary key, integer
-   username: varchar(50), unique
-   email: varchar(100), unique
-   password: varchar(length), hashed and salted for encryption
-   createdAt: timestamp
-   updatedAt: timestamp
-
-Profile:
-   id: auto-incremented, primary key, integer
-   userId: foreign key from User table, integer
-      username: use data from User table
-   profilePictureLocation: location of profile picture file on server, varchar(100)
-   bio: varchar(200)
-   createdAt: Timestamp
-   updatedAt: Timestamp
-
-Messages:
-   id: auto-incremented, primary key, integer
-   userId: foreign key from User table, integer
-   content: varchar(2000)
-   createdAt: timestamp
-
-# Full-Stack Chat App
-- Registration System
-- Login System
-- Authentication System
-- Basic Chatting
-- Possible Video Chatting
+# Database Schema
+- User
+   - id: auto-incremented, primary key, integer
+   - username: varchar(50), unique
+   - email: varchar(100), unique
+   - password: varchar(length), hashed and salted for encryption
+   - createdAt: timestamp
+   - updatedAt: timestamp
+- Profile
+   - id: auto-incremented, primary key, integer
+   - userId: foreign key from User table, integer
+      - username: use data from User table
+   - profilePictureLocation: location of profile picture file on server, varchar(100)
+   - bio: varchar(200)
+   - createdAt: Timestamp
+   - updatedAt: Timestamp
+- Messages
+   - id: auto-incremented, primary key, integer
+   - userId: foreign key from User table, integer
+   - content: varchar(2000)
+   - createdAt: timestamp
 
 # Installation
 - Clone this repository
@@ -114,10 +137,17 @@ Messages:
    ```
    npm install
    ```
+- Install the following softwares:
+   - MySQL
+   - Redis
 - Create a .env file containing the following:
    - Do not add the bracket texts
    ```
    PORT=(number:an-available-port-on-your-device)
+   DB_HOST=(string:mysql-host)
+   DB_USER=(string:mysql-user)
+   DB_PASSWORD=(string:mysql-password)
+   DB_PORT=(number:mysql-port-number)
    ```
 - Run the 1st command to run in dev mode. Run 2nd command to start the app:
    ```
