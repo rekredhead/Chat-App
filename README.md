@@ -149,6 +149,10 @@
    DB_PASSWORD=(string:mysql-password)
    DB_PORT=(number:mysql-port-number)
    ```
+- Run this command to test the program:
+   ```
+   npm test
+   ```
 - Run the 1st command to run in dev mode. Run 2nd command to start the app:
    ```
    npm run dev

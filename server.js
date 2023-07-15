@@ -1,5 +1,6 @@
 const { PORT } = require("./config");
 const express = require('express');
+require('./database/createDB'); // Create database when server is launched
 
 const app = express();
 
