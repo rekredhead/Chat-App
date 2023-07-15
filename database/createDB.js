@@ -1,5 +1,5 @@
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_NAME } = require('../config');
-const mysql = require('mysql');
+const { createConnection } = require('mysql');
 
 const createTableIfNotExistQuery = 'CREATE TABLE IF NOT EXISTS';
 const userTableQuery = `${createTableIfNotExistQuery} USER(
@@ -28,14 +28,14 @@ const messagesTableQuery = `${createTableIfNotExistQuery} MESSAGES(
 const dbTables = [ userTableQuery, profileTableQuery, messagesTableQuery ];
 
 // Establish a connection to local MySQL server 
-const connection = mysql.createConnection({
+const connection = createConnection({
    host: DB_HOST,
    user: DB_USER,
    password: DB_PASSWORD,
    port: DB_PORT
 });
 
-connection.connect(async(err) => {
+connection.connect((err) => {
    if (err) {
       const mysqlNotConnectedErrRegexp = /(connect)*(econnrefused)\b/i;
 
@@ -65,3 +65,8 @@ connection.connect(async(err) => {
       });
    });
 });
+
+module.exports = {
+   connection,
+   dbTables
+};
