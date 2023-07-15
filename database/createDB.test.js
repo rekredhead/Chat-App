@@ -49,7 +49,7 @@ describe('createDB.js', () => {
          email VARCHAR(100) UNIQUE,
          password VARCHAR(60),
          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )`;
       const profileTableQuery = `${createTableIfNotExistQuery} PROFILE(
          profileID INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +57,7 @@ describe('createDB.js', () => {
          profilePictureLocation VARCHAR(100),
          bio VARCHAR(200),
          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )`;
       const messagesTableQuery = `${createTableIfNotExistQuery} MESSAGES(
          messageID INT AUTO_INCREMENT PRIMARY KEY,
