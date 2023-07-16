@@ -1,8 +1,19 @@
 const { PORT } = require("./config");
 const express = require('express');
+const session = require('express-session');
 require('./database/createDB'); // Create database when server is launched
 
 const app = express();
+
+// Setup sessions middleware
+app.use(session({
+   secret: 'randomcharacters',
+   resave: false,
+   saveUninitialized: true,
+   cookie: {
+      expires: false
+   }
+}));
 
 app.use(express.json()); // Enable app to use JSON data
 app.use(express.urlencoded({ extended: true }));

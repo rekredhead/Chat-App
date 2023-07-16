@@ -1,9 +1,10 @@
+require('../../database/createDB');
+
 const request = require('supertest');
 const express = require('express');
 const router = require('../registration');
 const dbConnection = require('../../database/dbConnection');
 const { PORT } = require('../../config');
-require('../../database/createDB');
 
 const app = express();
 app.use(express.json());
