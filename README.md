@@ -6,6 +6,8 @@
    - Mobile responsive
 - Make different features from different git branches
 
+# Update the launching instructions
+
 # Full-Stack Chat App
 - Registration System
 - Login System
@@ -108,7 +110,7 @@
    - content: varchar(2000)
    - createdAt: timestamp
 
-# Installation
+# Installation and Launching
 - Clone this repository
    ```
    git clone https://github.com/rekredhead/Chat-App.git
@@ -120,6 +122,15 @@
 - Install the following softwares:
    - MySQL
    - Redis
+- Create a gmail account to be used for sending emails to users
+   - Create a new gmail account or use an unused account
+   - Open the main page of the gmail account
+   - Go to settings and enable 2-step verification - Done (1/2)
+   - Search for 'App Passwords' in the search bar or in the settings tab
+   - Select "Mail" from the "Select app" drop down
+   - Select the device that you are hosting the app on the next dropdown and click the "Generate" button
+   - Copy the app password that was generated and paste it in the .env file as mentioned below - Done (2/2)
+
 - Create a .env file containing the following:
    - Do not add the bracket texts
    ```
@@ -128,7 +139,14 @@
    DB_USER=(string:mysql-user)
    DB_PASSWORD=(string:mysql-password)
    DB_PORT=(number:mysql-port-number)
+   MESSAGING_EMAIL=(string:gmail-used-to-send-emails-to-users)
+   MESSAGING_EMAIL_PASSWORD=(string:app-password-of-email)
    ```
+- Open a separate terminal in your IDE/Code Editor and run this command to start the redis server:
+   ```
+   npm run startRedis
+   ```
+   - Modify the "startRedis" and "resolveRedis" scripts in package.json if Redis was installed on a different location
 - Run this command to test the program:
    ```
    npm test
