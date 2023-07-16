@@ -19,8 +19,12 @@
    - Register users to the app
 - POST users/login
    - Login users to the app
-- POST users/password-reset
-   - Alter users passwords
+- POST users/password-reset/new-password
+   - Generate verification code and cache with userID and new password
+   - Send code to user's email
+- POST users/password-reset/verification
+   - Check user's verification code for password resetting
+   - Update user password in database
 
 ## Profiles
 - POST profiles/create
