@@ -2,6 +2,7 @@ require('../../database/createDB');
 
 const request = require('supertest');
 const express = require('express');
+const session = require('express-session');
 const router = require('../login');
 const dbConnection = require('../../database/dbConnection');
 const encryptPassword = require('../functions/encryptPassword');
@@ -9,6 +10,14 @@ const { PORT } = require('../../config');
 
 const app = express();
 app.use(express.json());
+app.use(session({
+   secret: 'randomcharacters',
+   resave: false,
+   saveUninitialized: true,
+   cookie: {
+      expires: false
+   }
+}));
 app.use('/', router);
 
 describe('User Login API', () => {
@@ -23,22 +32,18 @@ describe('User Login API', () => {
    });
 
    it('should verify a user login successfully', async () => {
-      try {
-         // Create a test user
-         await createUserInDatabase();
+      // Create a test user
+      await createUserInDatabase();
 
-         const response = await request(app)
-            .post('/users/login')
-            .send({
-               username: 'testuser',
-               password: 'testpassword'
-            });
+      const response = await request(app)
+         .post('/users/login')
+         .send({
+            username: 'testuser',
+            password: 'testpassword'
+         });
 
-         expect(response.status).toBe(200);
-         expect(response.body.message).toBe('User is verified');
-      } catch (err) {
-         console.log('hi');
-      }
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe('User is verified');
    });
 
    it('should notify if a username is not found', async () => {
