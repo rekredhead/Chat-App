@@ -73,7 +73,7 @@ router.post('/users/password-reset/verification', (req, res) => {
       const updateUserPasswordQuery = `UPDATE USER SET password='${newEncryptedPassword}' WHERE username='${username}'`;
       dbConnection.query(updateUserPasswordQuery, (err) => {
          if (err) throw err;
-         res.status(200).send({ message: "Password changed succesfully" });
+         res.status(200).send({ message: "Password changed successfully" });
       });
    });
    // Remove password and confirm password inputs in frontend after user presses change password button

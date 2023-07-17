@@ -50,18 +50,6 @@
    - Use Auth0 only after making registry system
 - User Login / Authentication
    - Use sessions first and then try using tokens (JWT) for learning only
-- Password reset
-   - User enters their new password twice to the page
-   - Server sends a random-generated code to the user's email
-   - Server caches the userId and verification code and will remove it after 5 minutes
-   - Send response to user to inform them about the email and show a countdown of 5 minutes on the page
-   - User enters the verification code to page
-   - Send code to server using POST API
-   - Server checks if userId is cached within the server
-      - If yes, server checks if verification code matches the one in the server
-         - If yes, update the password of the user from the User table
-         - If no, inform the user that the verification code is invalid
-      - If no, inform user that the verification code has expired
 - User profile
    - Send profile data (if available) of user from database to profile page using GET API
    - Users enters (optional) profile data to profile page
@@ -90,25 +78,24 @@
 
 # Database Schema
 - User
-   - id: auto-incremented, primary key, integer
+   - userID: auto-incremented, primary key, integer
    - username: varchar(50), unique
    - email: varchar(100), unique
    - password: varchar(length), hashed and salted for encryption
-   - createdAt: timestamp
-   - updatedAt: timestamp
+   - createdAt: timestamp, auto-added when data is inserted
+   - updatedAt: timestamp, auto-added when data is inserted and updates when data is updated
 - Profile
-   - id: auto-incremented, primary key, integer
-   - userId: foreign key from User table, integer
-      - username: use data from User table
+   - profileID: auto-incremented, primary key, integer
+   - userID: foreign key from User table, integer
    - profilePictureLocation: location of profile picture file on server, varchar(100)
    - bio: varchar(200)
-   - createdAt: Timestamp
-   - updatedAt: Timestamp
+   - createdAt: timestamp, auto-added when data is inserted
+   - updatedAt: timestamp, auto-added when data is inserted and updates when data is updated
 - Messages
-   - id: auto-incremented, primary key, integer
-   - userId: foreign key from User table, integer
+   - messageID: auto-incremented, primary key, integer
+   - userID: foreign key from User table, integer
    - content: varchar(2000)
-   - createdAt: timestamp
+   - createdAt: timestamp, auto-added when data is inserted
 
 # Installation and Launching
 - Clone this repository
@@ -147,6 +134,7 @@
    npm run startRedis
    ```
    - Modify the "startRedis" and "resolveRedis" scripts in package.json if Redis was installed on a different location
+   - Make sure redis is running before you test or start the app
 - Run this command to test the program:
    ```
    npm test

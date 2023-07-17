@@ -46,7 +46,6 @@ connection.connect((err) => {
          throw err;
       }
    }
-   console.log("MySQL Connected...");
 
    connection.query(`CREATE DATABASE IF NOT EXISTS ${DB_NAME}`, (err) => {
       if (err) throw err;
