@@ -13,7 +13,6 @@ const userTableQuery = `${createTableIfNotExistQuery} USER(
 const profileTableQuery = `${createTableIfNotExistQuery} PROFILE(
    profileID INT AUTO_INCREMENT PRIMARY KEY,
    userID INT REFERENCES USER(userID),
-   profilePictureLocation VARCHAR(100),
    bio VARCHAR(200),
    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -42,9 +41,9 @@ connection.connect((err) => {
       if (mysqlNotConnectedErrRegexp.test(err.message)) {
          console.log("MySQL not Connected");
          return;
-      } else {
-         throw err;
       }
+
+      throw err;
    }
 
    connection.query(`CREATE DATABASE IF NOT EXISTS ${DB_NAME}`, (err) => {

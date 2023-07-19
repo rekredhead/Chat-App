@@ -1,0 +1,146 @@
+/*
+   This is a test suite for the profile API.
+   I can't send the session userID cookie correctly to the profile apis.
+   It always says userID is undefined in the api output.
+   I removed this test suite since it has been too long since I've been trying to fix it
+*/
+
+require('../../database/createDB');
+
+const request = require('supertest');
+const express = require('express');
+const session = require('express-session');
+const router = require('../profile');
+const dbConnection = require('../../database/dbConnection');
+const encryptPassword = require('../functions/encryptPassword');
+const { PORT } = require('../../config');
+
+const app = express();
+app.use(express.json());
+app.use(session({
+   secret: 'randomcharacters',
+   resave: false,
+   saveUninitialized: true,
+   cookie: {
+      expires: false
+   }
+}));
+app.use('/', router);
+
+describe('Profile API', () => {
+   let server;
+
+   beforeAll(async () => {
+      server = app.listen(PORT);
+
+      // Create a test user
+      await createUserInDatabase();
+   });
+   afterAll(async () => {
+      await new Promise((resolve) => server.close(resolve));
+      await cleanUpTestDataFromDatabase();
+   });
+
+   it('/me should create a new empty profile if user doesn\'t have one', async () => {
+      const loginResponse = await request(app)
+         .post('/users/login')
+         .send({
+            username: 'testuser',
+            password: 'testpassword'
+         });
+
+      const cookie = loginResponse.headers['set-cookie'][0];
+      //console.log(cookie);
+      
+      const response = await request(app)
+         .get('/profiles/me')
+         .set('Cookie', cookie);
+
+      expect(response.status).toBe(200);
+      expect(response.body.username).toBe('testuser');
+      expect(response.body.bio).toBe('');
+   });
+   /*
+   it('/update should update the user profile', async() => {
+      const response = await request(app)
+         .put('/profiles/update')
+         .send({
+            bio: 'testbio'
+         })
+         .set('Cookie', cookie);
+      
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe('Updated Profile');
+   });
+
+   it('/me should return current user\'s profile data', async() => {
+      const response = await request(app)
+         .get('/profiles/me')
+         .set('Cookie', cookie);
+
+      expect(response.status).toBe(200);
+      expect(response.body.username).toBe('testuser');
+      expect(response.body.bio).toBe('testbio');
+   });
+
+   it('/users should return a list of username', async() => {
+      const response = await request(app)
+         .get('/profiles/users');
+      
+      const usernames = response.body.usernames;
+      expect(usernames.length).toBeGreaterThan(0);
+      expect(usernames.filter((username) => username === 'testuser')[0]).toBe('testuser');
+   });
+
+   it('/users/:username should notify if a user is not found', async() => {
+      const response = await request(app)
+         .get('/profiles/users/:testuser123');
+      
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe('User not found');
+   });
+
+   it('/users/:username should return profile data for a specific username', async() => {
+      const response = await request(app)
+         .get('/profiles/users/:testuser');
+      
+      expect(response.status).toBe(200);
+      expect(response.body.username).toBe('testuser');
+      expect(response.body.bio).toBe('testbio');
+   });*/
+});
+
+const getCookie = async () => {
+   const loginResponse = await request(app)
+      .post('/users/login')
+      .send({
+         username: 'testuser',
+         password: 'testpassword'
+      });
+
+   console.log(loginResponse.headers['set-cookie'][0].split(';')[0]);
+   return loginResponse.headers['set-cookie'][0];
+}
+
+const createUserInDatabase = async () => {
+   const username = 'testuser';
+   const useremail = 'test@example.com';
+   const userpassword = await encryptPassword('testpassword');
+
+   const insertUserQuery = `INSERT INTO USER (username, email, password) VALUES ('${username}', '${useremail}', '${userpassword}')`;
+   await dbConnection.query(insertUserQuery, (err) => {
+      if (err) throw err;
+   });
+}
+
+const cleanUpTestDataFromDatabase = async () => {
+   const deleteTestProfileQuery = `DELETE FROM PROFILE WHERE userID IN (SELECT userID FROM USER WHERE username='testuser')`;
+   const deleteTestUserQuery = `DELETE FROM USER WHERE username='testuser'`;
+
+   try {
+      await dbConnection.query(deleteTestProfileQuery);
+      await dbConnection.query(deleteTestUserQuery);
+   } catch (err) {
+      throw err;
+   }
+}

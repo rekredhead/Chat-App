@@ -1,5 +1,4 @@
 # Todos
-- Include testing in the program as well
 - Make the site more neater and have a better design
    - Have dark mode
    - Nice animations
@@ -51,13 +50,7 @@
 - User Login / Authentication
    - Use sessions first and then try using tokens (JWT) for learning only
 - User profile
-   - Send profile data (if available) of user from database to profile page using GET API
-   - Users enters (optional) profile data to profile page
-   - Add profile data to database (based on userid) from a POST API
-   - Update profile data to database (based on userid) from a PUT API
    - Allow image (profile picture) uploading - store images on server
-   - Use a GET API to make the profile data public
-   - Send OK message to user
 - User joining chatroom
    - Assign websocket id to user from their userid and cache it on server (i.e. { socketId: xxxx, userid: xxxx })
    - Get username and profile picture from database (based on userid) from GET API
@@ -87,7 +80,6 @@
 - Profile
    - profileID: auto-incremented, primary key, integer
    - userID: foreign key from User table, integer
-   - profilePictureLocation: location of profile picture file on server, varchar(100)
    - bio: varchar(200)
    - createdAt: timestamp, auto-added when data is inserted
    - updatedAt: timestamp, auto-added when data is inserted and updates when data is updated
