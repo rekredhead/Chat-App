@@ -1,16 +1,47 @@
 const express = require('express');
+const path = require('path');
+const multer = require('multer');
 const dbConnection = require('../database/dbConnection');
 const router = express.Router();
 
 router.use('/profile', express.static("./client/profile-page"));
 
-/*
-Save the profile pictures in profile_pictures/ in the main directory
-Host all images in the directory
-Save each picture as the user's username
-Frontend will access the profile picture from the username and the hosted picture
-Remove profilePictureLocation field in database if not needed
-*/
+// Files are stored in 'profile_pictures' directory and renamed with user's username
+const storage = multer.diskStorage({
+   destination: (req, file, cb) => {
+      cb(null, 'profile_pictures');
+   },
+   filename: (req, file, cb) => {
+      const extension = path.extname(file.originalname);
+      const username = req.body.username;
+      const filename = username + extension;
+      cb(null, filename);
+   }
+});
+
+const upload = multer({ storage });
+
+router.post('/profiles/uploadProfilePicture', (req, res) => {
+   // 'picture' is the name of the input from the HTML form
+   upload.single('picture')(req, res, (err) => {
+      if (err) throw err;
+
+      if (!req.file) {
+         res.status(400).send({ message: "No file was uploaded" });
+         return;
+      }
+
+      const validExtensions = ['.jpeg', '.jpg', '.png'];
+      const fileExtension = path.extname(req.file.originalname).toLowerCase();
+
+      if (!validExtensions.includes(fileExtension)) {
+         res.status(400).send({ message: 'Cannot accept this image format. Please use jpeg, jpg or png' });
+         return;
+      }
+
+      res.status(200).send({ message: "Profile picture was uploaded" });
+   });
+});
 
 router.put('/profiles/update', (req, res) => {
    const userID = req.session.userID;
@@ -87,7 +118,5 @@ router.get('/profiles/me', (req, res) => {
       });
    });
 });
-
-// A Separate router for handling profile picture uploads
 
 module.exports = router;

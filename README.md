@@ -30,6 +30,8 @@
 ## Profiles
 - POST profiles/create
    - Add profile data of user to database
+- POST profiles/updateProfilePicture
+   - Store the user's profile picture in the 'profile_pictures' folder
 - PUT profiles/update
    - Update profile data of user to database
 - GET profiles/users
@@ -49,8 +51,6 @@
    - Use Auth0 only after making registry system
 - User Login / Authentication
    - Use sessions first and then try using tokens (JWT) for learning only
-- User profile
-   - Allow image (profile picture) uploading - store images on server
 - User joining chatroom
    - Assign websocket id to user from their userid and cache it on server (i.e. { socketId: xxxx, userid: xxxx })
    - Get username and profile picture from database (based on userid) from GET API
