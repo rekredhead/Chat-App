@@ -1,11 +1,17 @@
 # Todos
+- Use next.js for my frontend
+   - install concurrently module with --save-dev flag
+   - Save in the package.json script:
+   ```
+   "dev": "concurrently \"npm run start-server\" \"npm run start-client\"",
+   "start-server": "node server.js"
+   "start-client": "cd client && npm start"
+   ```
 - Make the site more neater and have a better design
    - Have dark mode
    - Nice animations
    - Mobile responsive
 - Make different features from different git branches
-
-# Update the launching instructions
 
 # Full-Stack Chat App
 - Registration System
@@ -47,7 +53,6 @@
 
 # Plan (will remove parts over time)
 - User Registration
-   - Redirect user to login page
    - Use Auth0 only after making registry system
 - User Login / Authentication
    - Use sessions first and then try using tokens (JWT) for learning only
@@ -101,6 +106,9 @@
 - Install the following softwares:
    - MySQL
    - Redis
+
+- Instructions for client side work with next.js
+
 - Create a gmail account to be used for sending emails to users
    - Create a new gmail account or use an unused account
    - Open the main page of the gmail account
