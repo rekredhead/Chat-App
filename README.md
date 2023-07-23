@@ -104,7 +104,7 @@
       cd client
       npm install
       ```
-   - (Future instructions here)
+   - In next.config.js, use the Domain URL of your server for the SERVER_DOMAIN environment variable
 - Create a gmail account to be used for sending emails to users
    - Create a new gmail account or use an unused account
    - Open the main page of the gmail account

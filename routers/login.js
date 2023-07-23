@@ -27,7 +27,6 @@ router.post('/users/login', (req, res) => {
 
       req.session.userID = userIDInDB;
       res.status(200).send({message: "User is verified"});
-      // res.redirect("/chat");
    });
 });
 

@@ -1,6 +1,7 @@
 const { PORT } = require("./config");
 const express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 require('./database/createDB'); // Create database when server is launched
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(session({
 
 app.use(express.json()); // Enable app to use JSON data
 app.use(express.urlencoded({ extended: true }));
+app.use('*', cors());
 
 // Import Routers
 const chatRouter = require('./routers/chat/chatPage');
@@ -33,7 +35,7 @@ app.use(profileRouter);
 app.use(registrationRouter);
 
 // Listen to requests from users
-const server = app.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/login`));
+const server = app.listen(PORT, () => console.log(`Available on PORT ${PORT}`));
 
 // Enable websocket connection for the app
 const chatSocket = require('./routers/chat/chatSocket');

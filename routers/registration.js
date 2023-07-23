@@ -31,7 +31,6 @@ router.post('/users/register', async(req, res) => {
       }
 
       res.status(200).send({message: `Registered user: ${username}`});
-      //res.redirect('/login');
    })
 });
 
