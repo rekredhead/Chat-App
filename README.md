@@ -1,12 +1,4 @@
 # Todos
-- Use next.js for my frontend
-   - install concurrently module with --save-dev flag
-   - Save in the package.json script:
-   ```
-   "dev": "concurrently \"npm run start-server\" \"npm run start-client\"",
-   "start-server": "node server.js"
-   "start-client": "cd client && npm start"
-   ```
 - Make the site more neater and have a better design
    - Have dark mode
    - Nice animations
@@ -99,16 +91,20 @@
    ```
    git clone https://github.com/rekredhead/Chat-App.git
    ```
-- Install all packages using:
+- Install all packages for backend using:
    ```
    npm install
    ```
-- Install the following softwares:
+- Install the following softwares on the local device:
    - MySQL
    - Redis
-
-- Instructions for client side work with next.js
-
+- Setup the client
+   - Run the following commands to install nextjs dependencies
+      ```
+      cd client
+      npm install
+      ```
+   - (Future instructions here)
 - Create a gmail account to be used for sending emails to users
    - Create a new gmail account or use an unused account
    - Open the main page of the gmail account
@@ -117,8 +113,7 @@
    - Select "Mail" from the "Select app" drop down
    - Select the device that you are hosting the app on the next dropdown and click the "Generate" button
    - Copy the app password that was generated and paste it in the .env file as mentioned below - Done (2/2)
-
-- Create a .env file containing the following:
+- Create a .env file for backend containing the following:
    - Do not add the bracket texts
    ```
    PORT=(number:an-available-port-on-your-device)
@@ -135,14 +130,14 @@
    ```
    - Modify the "startRedis" and "resolveRedis" scripts in package.json if Redis was installed on a different location
    - Make sure redis is running before you test or start the app
-- Run this command to test the program:
-   ```
-   npm test
-   ```
-- Run the 1st command to run in dev mode. Run 2nd command to start the app:
-   ```
-   npm run dev
-   ```
-   ```
-   npm start
-   ```
+- Here are a list of terminal commands used for the server
+   - ```npm test``` - run test suites for both server and client
+   - ```npm start``` - start the nodejs (backend) and nextjs (frontend) servers concurrently
+   - ```npm run dev``` - run the nodejs (backend) and nextjs (frontend) server concurrently in dev mode
+   - ```npm run testServer``` - run test suites for the server
+   - ```npm run testClient``` - run test suites for the client
+   - ```npm run startServer``` - start the nodejs (backend) server only
+   - ```npm run startClient``` - start the nextjs (frontend) server only
+   - ```npm run devServer``` - run the nodejs (backend) server in dev mode
+   - ```npm run devClient``` - run the nextjs (frontend) server in dev mode
+   - ```npm run buildClient``` - build the nextjs code for production (run this before npm run startClient OR npm start)
