@@ -3,8 +3,6 @@ const dbConnection = require('../database/dbConnection');
 const encryptPassword = require('./functions/encryptPassword');
 const router = express.Router();
 
-router.use('/registration', express.static("./client/registration-page"));
-
 router.post('/users/register', async(req, res) => {
    const { username, emailAddress, password } = req.body;
    

@@ -2,10 +2,8 @@ const express = require('express');
 const dbConnection = require('../database/dbConnection');
 const isVerificationEmailSent = require('./functions/sendVerificationCodeToEmail');
 const encryptPassword = require('./functions/encryptPassword');
-const { cachePasswordResettingData, getPasswordResettingDataFromCache } = require('./functions/handleRedisCaching');
+const { cachePasswordResettingData, getPasswordResettingDataFromCache, deleteDataFromCache } = require('./functions/handleRedisCaching');
 const router = express.Router();
-
-router.use('/password-reset', express.static("./client/password-reset-page"));
 
 const generateRandomCode = () => {
    let code = '';
@@ -67,6 +65,8 @@ router.post('/users/password-reset/verification', (req, res) => {
          res.status(400).send({ message: "Incorrect verification code" });
          return;
       }
+
+      await deleteDataFromCache(username);
 
       // Update password for the user in the database
       const newEncryptedPassword = await encryptPassword(cachedPasswordResetData.password);

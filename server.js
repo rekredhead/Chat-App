@@ -33,7 +33,7 @@ app.use(profileRouter);
 app.use(registrationRouter);
 
 // Listen to requests from users
-const server = app.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/chat`));
+const server = app.listen(PORT, () => console.log(`App available on http://localhost:${PORT}/login`));
 
 // Enable websocket connection for the app
 const chatSocket = require('./routers/chat/chatSocket');

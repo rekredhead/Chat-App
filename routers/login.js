@@ -3,8 +3,6 @@ const bcrypt = require('bcrypt');
 const dbConnection = require('../database/dbConnection');
 const router = express.Router();
 
-router.use('/login', express.static("./client/login-page"));
-
 router.post('/users/login', (req, res) => {
    const { username, password } = req.body;
 

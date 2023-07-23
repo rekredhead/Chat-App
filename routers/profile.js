@@ -4,8 +4,6 @@ const multer = require('multer');
 const dbConnection = require('../database/dbConnection');
 const router = express.Router();
 
-router.use('/profile', express.static("./client/profile-page"));
-
 // Files are stored in 'profile_pictures' directory and renamed with user's username
 const storage = multer.diskStorage({
    destination: (req, file, cb) => {
