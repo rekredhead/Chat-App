@@ -31,16 +31,14 @@ export default function Registration() {
          const responseMessage = await response.json();
          alert(responseMessage.message);
       } else {
-         //redirect('/'); - redirect user to login page
-         const responseMessage = await response.json(); // Remove these two codes later
-         alert(responseMessage.message);
+         redirect('/login');
       }
    }
 
    return (
       <div className="flex flex-col gap-2">
          <h1 className="text-center border rounded-2xl text-3xl p-3">Registration Form</h1>
-         <form action={registerUser} className="flex flex-col border rounded-2xl gap-10 p-10 w-96">
+         <form action={registerUser} className="flex flex-col border rounded-2xl gap-8 p-10 w-96">
             <div className="flex flex-col gap-2">
                <label className="text-lg" htmlFor="username">Username</label>
                <input required className="bg-transparent border p-2 text-base rounded-md" id="username" name="username" type="text" />

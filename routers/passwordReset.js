@@ -76,9 +76,6 @@ router.post('/users/password-reset/verification', (req, res) => {
          res.status(200).send({ message: "Password changed successfully" });
       });
    });
-   // Remove password and confirm password inputs in frontend after user presses change password button
-   // Replace them with the verificationCode input and start a 5 minute countdown when a OK message is received
-   // Put the password and confirm password inputs again after the countdown - store the countdown in localstorage so users can't refresh the page to clear it
 });
 
 module.exports = router;

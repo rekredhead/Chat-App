@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function Login() {
@@ -33,7 +34,7 @@ export default function Login() {
    return (
       <div className="flex flex-col gap-2">
          <h1 className="text-center border rounded-2xl text-3xl p-3">Login Form</h1>
-         <form action={loginUser} className="flex flex-col border rounded-2xl gap-10 p-10 w-96">
+         <form action={loginUser} className="flex flex-col border rounded-2xl gap-8 p-10 w-96">
             <div className="flex flex-col gap-2">
                <label className="text-lg" htmlFor="username">Username</label>
                <input required className="bg-transparent border p-2 text-base rounded-md" id="username" name="username" type="text" />
@@ -52,6 +53,10 @@ export default function Login() {
                   type="reset"
                >Clear</button>
             </div>
+            <Link
+               className="text-right text-slate-300"
+               href="/password-reset"
+            >Forgot Password?</Link>
          </form>
       </div>
    );
