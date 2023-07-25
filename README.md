@@ -117,6 +117,7 @@
    - Do not add the bracket texts
    ```
    PORT=(number:an-available-port-on-your-device)
+   FRONTEND_DOMAIN=(string:domain-of-nextJS-server)
    DB_HOST=(string:mysql-host)
    DB_USER=(string:mysql-user)
    DB_PASSWORD=(string:mysql-password)
@@ -130,7 +131,7 @@
    ```
    - Modify the "startRedis" and "resolveRedis" scripts in package.json if Redis was installed on a different location
    - Make sure redis is running before you test or start the app
-- Here are a list of terminal commands used for the server
+- Here are a list of terminal commands used for both server and client
    - ```npm test``` - run test suites for both server and client
    - ```npm start``` - start the nodejs (backend) and nextjs (frontend) servers concurrently
    - ```npm run dev``` - run the nodejs (backend) and nextjs (frontend) server concurrently in dev mode

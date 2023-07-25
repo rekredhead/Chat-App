@@ -54,10 +54,16 @@ export default function Login() {
                   type="reset"
                >Clear</button>
             </div>
-            <Link
-               className="text-right text-slate-300"
-               href="/password-reset"
-            >Forgot Password?</Link>
+            <div className="flex justify-between">
+               <Link
+                  className="text-right text-slate-300"
+                  href="/registration"
+               >Create Account</Link>
+               <Link
+                  className="text-right text-slate-300"
+                  href="/password-reset"
+               >Forgot Password?</Link>
+            </div>
          </form>
       </div>
    );
