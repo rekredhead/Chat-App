@@ -1,24 +1,29 @@
 const { PORT } = require("./config");
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('./database/createDB'); // Create database when server is launched
 
 const app = express();
 
-// Setup sessions middleware
+// Setup sessions and cookies middleware
+const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
    secret: 'randomcharacters',
    resave: false,
    saveUninitialized: true,
    cookie: {
-      expires: false
+      maxAge: oneDay
    }
 }));
+app.use(cookieParser());
 
 app.use(express.json()); // Enable app to use JSON data
 app.use(express.urlencoded({ extended: true }));
-app.use('*', cors());
+
+// Enabled CORS to allow access to the domain 'http://localhost:3000' and allow credentials to pass
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 // Import Routers
 const chatRouter = require('./routers/chat/chatPage');

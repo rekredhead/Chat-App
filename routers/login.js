@@ -7,12 +7,12 @@ router.post('/users/login', (req, res) => {
    const { username, password } = req.body;
 
    const getMatchingDataQuery = `SELECT userID,password FROM USER WHERE username='${username}'`;
-   dbConnection.query(getMatchingDataQuery, async(err, result) => {
+   dbConnection.query(getMatchingDataQuery, async (err, result) => {
       if (err) throw err;
       const isUserInDatabase = result.length === 1;
 
       if (!isUserInDatabase) {
-         res.status(400).send({message: "Username not found"});
+         res.status(400).send({ message: "Username not found" });
          return;
       }
 
@@ -21,12 +21,12 @@ router.post('/users/login', (req, res) => {
       const doesPasswordMatch = await bcrypt.compare(password, userPasswordInDB);
 
       if (!doesPasswordMatch) {
-         res.status(400).send({message: "Incorrect Password"});
+         res.status(400).send({ message: "Incorrect Password" });
          return;
       }
 
       req.session.userID = userIDInDB;
-      res.status(200).send({message: "User is verified"});
+      res.status(200).send({ message: "User is verified" });
    });
 });
 
