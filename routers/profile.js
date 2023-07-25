@@ -22,7 +22,11 @@ const upload = multer({ storage });
 router.post('/profiles/uploadProfilePicture', (req, res) => {
    // 'picture' is the name of the input from the HTML form
    upload.single('picture')(req, res, (err) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
 
       if (!req.file) {
          res.status(400).send({ message: "No file was uploaded" });
@@ -47,7 +51,11 @@ router.put('/profiles/update', (req, res) => {
 
    const updateUserProfileDataQuery = `UPDATE PROFILE SET bio='${bio}' WHERE userID='${userID}'`;
    dbConnection.query(updateUserProfileDataQuery, (err) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
       res.status(200).send({ message: "Updated Profile" });
    });
 });
@@ -55,7 +63,11 @@ router.put('/profiles/update', (req, res) => {
 router.get('/profiles/users', (req, res) => {
    const getAllUsernamesQuery = 'SELECT username FROM USER';
    dbConnection.query(getAllUsernamesQuery, (err, result) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
       const usernames = result.map((element) => element.username);
 
       res.status(200).send({ usernames });
@@ -72,7 +84,11 @@ router.get('/profiles/users/:username', (req, res) => {
       WHERE u.username='${username.slice(1)}'
    `;
    dbConnection.query(getUserProfileData, (err, result) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
 
       const isUserInDatabase = result.length > 0;
       if (!isUserInDatabase) {
@@ -94,7 +110,11 @@ router.get('/profiles/me', (req, res) => {
       WHERE u.userID=${userID}
    `;
    dbConnection.query(getUserProfileData, (err, result) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
 
       // Send profile data to frontend - insert empty data into PROFILE table if no data of user is present
       const isUserInDatabase = result.length > 0;
@@ -105,11 +125,19 @@ router.get('/profiles/me', (req, res) => {
 
       const insertEmptyProfileDataQuery = `INSERT INTO PROFILE ( userID, bio ) VALUES ( ${userID}, '' )`;
       dbConnection.query(insertEmptyProfileDataQuery, (err) => {
-         if (err) throw err;
+         if (err) {
+            console.error(err);
+            res.status(400).send({ message: err });
+            return;
+         }
 
          // Get profile data again and then send it to frontend
          dbConnection.query(getUserProfileData, (err, result) => {
-            if (err) throw err;
+            if (err) {
+               console.error(err);
+               res.status(400).send({ message: err });
+               return;
+            }
 
             res.status(200).send(result[0]);
          });

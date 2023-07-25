@@ -8,7 +8,11 @@ router.post('/users/login', (req, res) => {
 
    const getMatchingDataQuery = `SELECT userID,password FROM USER WHERE username='${username}'`;
    dbConnection.query(getMatchingDataQuery, async (err, result) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
       const isUserInDatabase = result.length === 1;
 
       if (!isUserInDatabase) {

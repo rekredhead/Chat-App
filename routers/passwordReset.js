@@ -22,7 +22,11 @@ router.post('/users/password-reset/new-password', (req, res) => {
 
    const findUsernameInDBQuery = `SELECT email FROM USER WHERE username='${username}'`;
    dbConnection.query(findUsernameInDBQuery, async(err, result) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
       if (result.length === 0) {
          res.status(400).send({ message: "Username not found" });
          return;
@@ -46,7 +50,11 @@ router.post('/users/password-reset/verification', (req, res) => {
 
    const findUsernameInDBQuery = `SELECT email FROM USER WHERE username='${username}'`;
    dbConnection.query(findUsernameInDBQuery, async(err, result) => {
-      if (err) throw err;
+      if (err) {
+         console.error(err);
+         res.status(400).send({ message: err });
+         return;
+      }
       if (result.length === 0) {
          res.status(400).send({ message: "Username not found" });
          return;
