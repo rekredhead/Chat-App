@@ -105,6 +105,7 @@
       npm install
       ```
    - In next.config.js, use the Domain URL of your server for the SERVER_DOMAIN environment variable
+   - In next.config.js, set the protocol, hostname and port of your SERVER DOMAIN
 - Create a gmail account to be used for sending emails to users
    - Create a new gmail account or use an unused account
    - Open the main page of the gmail account

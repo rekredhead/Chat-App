@@ -1,6 +1,7 @@
 // DOMAIN/profile - my profile - mutable - editor mode
 'use client';
 import { useState, useEffect, useRef } from "react";
+import Image from 'next/image';
 
 export default function Profile() {
    const fileInputRef = useRef<HTMLInputElement>(null);
@@ -54,11 +55,11 @@ export default function Profile() {
       alert(response.ok ?
          "Photo uploaded succesfully" :
          "Something went wrong when uploading your photo");
-      
+
       if (!response.ok) {
          const message = await response.json();
          console.log(message);
-         
+
       }
    }
 
@@ -87,10 +88,17 @@ export default function Profile() {
             <div className="flex justify-center">
                <div
                   onClick={handleProfilePicClick}
-                  className="border aspect-square w-5/6 rounded-full cursor-pointer"
+                  className="border aspect-square w-5/6 rounded-full cursor-pointer overflow-hidden"
                   title="Profile Picture"
-               >
-                  {/* Image here */}
+               >{profileData.username &&
+                  <Image
+                     src={`${SERVER_DOMAIN}/${profileData.username}.png`}
+                     alt={`${profileData.username} PFP`}
+                     width={0}
+                     height={0}
+                     sizes="100vw"
+                     style={{ width: '100%', height: '100%' }}
+                  />}
                </div>
                <input
                   ref={fileInputRef}
