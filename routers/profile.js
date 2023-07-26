@@ -4,11 +4,11 @@ const multer = require('multer');
 const dbConnection = require('../database/dbConnection');
 const router = express.Router();
 
+// Save the username as the session cookie instead of userID in worst case
+
 // Files are stored in 'profile_pictures' directory and renamed with user's username
 const storage = multer.diskStorage({
-   destination: (req, file, cb) => {
-      cb(null, 'profile_pictures');
-   },
+   destination: './profile_pictures',
    filename: (req, file, cb) => {
       const extension = path.extname(file.originalname);
       const username = req.body.username;

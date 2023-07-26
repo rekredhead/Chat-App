@@ -26,9 +26,9 @@ export default function Login() {
          const responseMessage = await response.json();
          alert(responseMessage.message);
       } else {
-         // redirect('/'); - replace link with chat page
-         const responseMessage = await response.json();
-         alert(responseMessage.message);
+         redirect('/profile');// - replace link with chat page
+         //const responseMessage = await response.json();
+         //alert(responseMessage.message);
       }
    }
 
@@ -38,7 +38,7 @@ export default function Login() {
          <form action={loginUser} className="flex flex-col border rounded-2xl gap-8 p-10 w-96">
             <div className="flex flex-col gap-2">
                <label className="text-lg" htmlFor="username">Username</label>
-               <input required className="bg-transparent border p-2 text-base rounded-md" id="username" name="username" type="text" />
+               <input autoFocus={true} required className="bg-transparent border p-2 text-base rounded-md" id="username" name="username" type="text" />
             </div>
             <div className="flex flex-col gap-2">
                <label className="text-lg" htmlFor="password">Password</label>

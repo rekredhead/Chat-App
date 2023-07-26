@@ -8,26 +8,58 @@ export default function Profile() {
    const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
 
    useEffect(() => {
-      fetch(`${SERVER_DOMAIN}/profiles/me`)
-         .then((response) => response.json())
-         .then((data) => setProfileData(data))
-         .catch((error) => {
-            //alert("Something went wrong when fetching your profile data");
-            //console.error(error);
+      const fetchData = async () => {
+         const response = await fetch(`${SERVER_DOMAIN}/profiles/me`, {
+            method: 'GET',
+            credentials: 'include'
          });
+
+         if (!response.ok) {
+            alert('Something went wrong when fetching your profile data');
+            return;
+         }
+
+         const data = await response.json();
+         setProfileData(data);
+      }
+      fetchData();
    }, []);
 
    const handleProfilePicClick = () => fileInputRef.current?.click();
-   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+   const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
       const selectedFiles = e.target.files;
       if (!selectedFiles?.length) {
          alert("Please select a file");
          return;
       }
 
+      if (!profileData.username) {
+         alert("Cannot upload without a username");
+         return;
+      }
+
+      const formData = new FormData();
       const selectedFile = selectedFiles[0];
 
-      // Send file to API
+      formData.append('picture', selectedFile);
+      formData.append('username', profileData.username);
+
+      const response = await fetch(`${SERVER_DOMAIN}/profiles/uploadProfilePicture`, {
+         method: 'POST',
+         body: formData,
+         credentials: 'include'
+      });
+
+      alert(response.ok ?
+         "Photo uploaded succesfully" :
+         "Something went wrong when uploading your photo");
+      
+      if (!response.ok) {
+         const message = await response.json();
+         console.log(message);
+         
+      }
    }
 
    const updateProfile = async (data: FormData) => {
@@ -38,7 +70,8 @@ export default function Profile() {
          headers: {
             'Content-Type': 'application/json'
          },
-         body: JSON.stringify({ bio })
+         body: JSON.stringify({ bio }),
+         credentials: 'include'
       });
 
       alert(response.ok ?
@@ -63,7 +96,7 @@ export default function Profile() {
                   ref={fileInputRef}
                   type="file"
                   accept=".jpg, .jpeg, .png"
-                  onChange={handleFileChange}
+                  onChange={uploadFile}
                   hidden
                />
             </div>
