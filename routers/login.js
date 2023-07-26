@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/users/login', (req, res) => {
    const { username, password } = req.body;
 
-   const getMatchingDataQuery = `SELECT userID,password FROM USER WHERE username='${username}'`;
+   const getMatchingDataQuery = `SELECT password FROM USER WHERE username='${username}'`;
    dbConnection.query(getMatchingDataQuery, async (err, result) => {
       if (err) {
          console.error(err);
@@ -19,8 +19,7 @@ router.post('/users/login', (req, res) => {
          res.status(400).send({ message: "Username not found" });
          return;
       }
-
-      const userIDInDB = result[0].userID;
+      
       const userPasswordInDB = result[0].password;
       const doesPasswordMatch = await bcrypt.compare(password, userPasswordInDB);
 
@@ -29,7 +28,7 @@ router.post('/users/login', (req, res) => {
          return;
       }
 
-      req.session.userID = userIDInDB;
+      req.session.username = username;
       res.status(200).send({ message: "User is verified" });
    });
 });

@@ -76,7 +76,7 @@
    - updatedAt: timestamp, auto-added when data is inserted and updates when data is updated
 - Profile
    - profileID: auto-incremented, primary key, integer
-   - userID: foreign key from User table, integer
+   - username: foreign key from User table, varchar(50)
    - bio: varchar(200)
    - createdAt: timestamp, auto-added when data is inserted
    - updatedAt: timestamp, auto-added when data is inserted and updates when data is updated

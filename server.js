@@ -23,6 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 // Enabled CORS to allow access to the frontend domain and allow credentials to pass
 app.use(cors({ origin: FRONTEND_DOMAIN, credentials: true }));
 
+app.use(express.static('./profile_pictures')); // Host the profile pictures on the server
+
 // Import Routers
 const chatRouter = require('./routers/chat/chatPage');
 const loginRouter = require('./routers/login');

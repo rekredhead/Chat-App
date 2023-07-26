@@ -4,24 +4,21 @@ const multer = require('multer');
 const dbConnection = require('../database/dbConnection');
 const router = express.Router();
 
-// Save the username as the session cookie instead of userID in worst case
-
 // Files are stored in 'profile_pictures' directory and renamed with user's username
 const storage = multer.diskStorage({
    destination: './profile_pictures',
    filename: (req, file, cb) => {
-      const extension = path.extname(file.originalname);
-      const username = req.body.username;
-      const filename = username + extension;
+      const username = req.session.username;
+      const filename = username + '.png';
       cb(null, filename);
    }
 });
-
 const upload = multer({ storage });
 
 router.post('/profiles/uploadProfilePicture', (req, res) => {
-   // 'picture' is the name of the input from the HTML form
-   upload.single('picture')(req, res, (err) => {
+   // It would be safer to validate whether req.session.username is a username in the DB - not bothered to implement it
+
+   upload.single('picture')(req, res, (err) => { // 'picture' is the name of the input from the HTML form
       if (err) {
          console.error(err);
          res.status(400).send({ message: err });
@@ -46,10 +43,10 @@ router.post('/profiles/uploadProfilePicture', (req, res) => {
 });
 
 router.put('/profiles/update', (req, res) => {
-   const userID = req.session.userID;
+   const username = req.session.username;
    const { bio } = req.body;
 
-   const updateUserProfileDataQuery = `UPDATE PROFILE SET bio='${bio}' WHERE userID='${userID}'`;
+   const updateUserProfileDataQuery = `UPDATE PROFILE SET bio='${bio}' WHERE username='${username}'`;
    dbConnection.query(updateUserProfileDataQuery, (err) => {
       if (err) {
          console.error(err);
@@ -78,10 +75,9 @@ router.get('/profiles/users/:username', (req, res) => {
    const { username } = req.params;
 
    const getUserProfileData = `
-      SELECT u.username, p.bio
-      FROM PROFILE AS p
-      INNER JOIN USER AS u ON p.userID=u.userID
-      WHERE u.username='${username.slice(1)}'
+      SELECT username, bio
+      FROM PROFILE
+      WHERE username='${username.slice(1)}'
    `;
    dbConnection.query(getUserProfileData, (err, result) => {
       if (err) {
@@ -102,12 +98,12 @@ router.get('/profiles/users/:username', (req, res) => {
 });
 
 router.get('/profiles/me', (req, res) => {
-   const userID = req.session.userID;
+   const username = req.session.username;
 
-   const getUserProfileData = `SELECT u.username, p.bio
-      FROM PROFILE AS p
-      INNER JOIN USER AS u ON p.userID=u.userID
-      WHERE u.userID=${userID}
+   const getUserProfileData = `
+      SELECT username, bio
+      FROM PROFILE
+      WHERE username='${username}'
    `;
    dbConnection.query(getUserProfileData, (err, result) => {
       if (err) {
@@ -115,7 +111,7 @@ router.get('/profiles/me', (req, res) => {
          res.status(400).send({ message: err });
          return;
       }
-
+      
       // Send profile data to frontend - insert empty data into PROFILE table if no data of user is present
       const isUserInDatabase = result.length > 0;
       if (isUserInDatabase) {
@@ -123,7 +119,7 @@ router.get('/profiles/me', (req, res) => {
          return;
       }
 
-      const insertEmptyProfileDataQuery = `INSERT INTO PROFILE ( userID, bio ) VALUES ( ${userID}, '' )`;
+      const insertEmptyProfileDataQuery = `INSERT INTO PROFILE ( username, bio ) VALUES ( '${username}', '' )`;
       dbConnection.query(insertEmptyProfileDataQuery, (err) => {
          if (err) {
             console.error(err);

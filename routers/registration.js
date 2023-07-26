@@ -8,11 +8,8 @@ router.post('/users/register', async (req, res) => {
 
    const encryptedPassword = await encryptPassword(password);
 
-   const insertUserQuery = `INSERT INTO USER (
-      username, email, password
-   ) VALUES (
-      '${username}', '${emailAddress}', '${encryptedPassword}'
-   )`;
+   const insertUserQuery = `
+   INSERT INTO USER ( username, email, password ) VALUES ( '${username}', '${emailAddress}', '${encryptedPassword}' )`;
 
    dbConnection.query(insertUserQuery, (err) => {
       if (err) {

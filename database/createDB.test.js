@@ -53,7 +53,7 @@ describe('createDB.js', () => {
       )`;
       const profileTableQuery = `${createTableIfNotExistQuery} PROFILE(
          profileID INT AUTO_INCREMENT PRIMARY KEY,
-         userID INT REFERENCES USER(userID),
+         username VARCHAR(50) REFERENCES USER(username),
          bio VARCHAR(200),
          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
          updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
