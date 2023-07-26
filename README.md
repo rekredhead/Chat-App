@@ -3,7 +3,7 @@
    - Have dark mode
    - Nice animations
    - Mobile responsive
-- Make different features from different git branches
+- Add commenting to several parts of the backend and frontend for better explanation
 
 # Full-Stack Chat App
 - Registration System

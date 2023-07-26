@@ -1,3 +1,6 @@
+// This is the script tag used to enable the websocket of the vanilla html page
+// <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+
 const socketURL = `ws${window.location.origin.substring(4)}`;
 const socket = io(socketURL);
 
