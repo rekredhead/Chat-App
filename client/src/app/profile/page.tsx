@@ -1,4 +1,3 @@
-// DOMAIN/profile - my profile - mutable - editor mode
 'use client';
 import { useState, useEffect, useRef } from "react";
 import Image from 'next/image';
