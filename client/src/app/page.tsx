@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useState } from "react";
 import io, { Socket } from 'socket.io-client';
+import Link from "next/link";
+import 'material-icons/iconfont/material-icons.css';
 
 interface messagesData {
    id: string;
@@ -9,6 +11,7 @@ interface messagesData {
 
 export default function Home() {
    const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
+   /*
    const [messages, setMessages] = useState<messagesData[]>([]);
    const [socket, setSocket] = useState<Socket | null>(null);
 
@@ -44,9 +47,25 @@ export default function Home() {
 
       socket.emit('message', text);
    }
-
+   */
    return (
-      <div className="w-screen h-screen p-10">
+      <div className="w-screen h-screen">
+         <header className="flex fixed items-center justify-between px-10 bg-slate-900 top-0 left-0 right-0 h-16">
+            <div className="flex items-center gap-3">
+               <button className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition">
+                  <span className="material-icons">menu</span>
+               </button>
+               <p className="text-3xl">Chat Hall</p>
+            </div>
+            <div className="flex items-center gap-3">
+               <button className="h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition">
+                  {/* Profile Link to /profile page */}
+                  P
+               </button>
+            </div>
+         </header>
+         <nav></nav>
+         {/*
          <h1>Message board</h1>
          <div className="border w-1/2 h-1/2 mb-5">
             {messages.map((message, index) => (
@@ -59,10 +78,8 @@ export default function Home() {
             <input className="text-black p-2" name="myMessage" type="text" />
             <button type="submit">Send</button>
          </form>
+         */}
          {/*
-         <header></header>
-         <nav></nav>
-         
          <main className="flex flex-col items-center h-screen w-screen px-5">
             <div className="border flex flex-col h-[90%] w-full p-1 gap-2 overflow-y-scroll">
                <div className="p-2 rounded-md text-lg w-fit bg-blue-600 self-end">Hi</div>
