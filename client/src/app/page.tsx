@@ -10,13 +10,72 @@ interface messagesData {
    text: string;
 }
 
+function Header({ onClick }: any) {
+   return (
+      <header className="flex fixed items-center justify-between px-3 bg-slate-900 top-0 left-0 right-0 h-16">
+         <div className="flex items-center gap-3">
+            <button
+               onClick={onClick}
+               className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition"
+            >
+               <span className="material-icons">menu</span>
+            </button>
+            <p className="text-3xl">Chat Hall</p>
+         </div>
+         <div className="flex items-center gap-3">
+            <Link
+               title="Profile"
+               href="/profile"
+               className="h-10 w-10 rounded-full overflow-hidden"
+            >
+               <Image
+                  src="/kehan.png"
+                  alt="Kehan PFP"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: '100%', height: '100%' }}
+               />
+            </Link>
+         </div>
+      </header>
+   );
+}
+
+function NavBar({ isMenuExpanded }: any) {
+   return (
+      <nav className={`flex flex-col items-center mt-16 py-2 px-3 gap-2 bg-slate-900 w-auto overflow-y-scroll`}>
+         {
+            [0, 1, 2, 3, 4].map((item, index) => {
+               return (
+                  <div className="flex items-center gap-2">
+                     <div key={index} className="h-10 w-10 rounded-full overflow-hidden">
+                        <Image
+                           src="/kehan.png"
+                           alt="Kehan PFP"
+                           width={0}
+                           height={0}
+                           sizes="100vw"
+                           style={{ width: '100%', height: '100%' }}
+                        />
+                     </div>
+                     {isMenuExpanded && <p className="text-sm">Testusername</p>}
+                  </div>
+               );
+            })
+         }
+      </nav>
+   );
+}
+
 export default function Home() {
    const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
 
    const [isMenuExpanded, setIsMenuExpanded] = useState(false);
-   /*
    const [messages, setMessages] = useState<messagesData[]>([]);
    const [socket, setSocket] = useState<Socket | null>(null);
+
+   const toggleMenu = () => setIsMenuExpanded(prevState => !prevState);
 
    // Only establish the websocket connection once after the page load
    useEffect(() => {
@@ -50,85 +109,31 @@ export default function Home() {
 
       socket.emit('message', text);
    }
-   */
+
    return (
       <div className="w-screen h-screen">
-         <header className="flex fixed items-center justify-between px-3 bg-slate-900 top-0 left-0 right-0 h-16">
-            <div className="flex items-center gap-3">
-               <button
-                  onClick={() => setIsMenuExpanded(prevState => !prevState)}
-                  className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition"
-               >
-                  <span className="material-icons">menu</span>
-               </button>
-               <p className="text-3xl">Chat Hall</p>
-            </div>
-            <div className="flex items-center gap-3">
-               <Link
-                  title="Profile"
-                  href="/profile"
-                  className="h-10 w-10 rounded-full overflow-hidden"
-               >
-                  <Image
-                     src="/kehan.png"
-                     alt="Kehan PFP"
-                     width={0}
-                     height={0}
-                     sizes="100vw"
-                     style={{ width: '100%', height: '100%' }}
-                  />
-               </Link>
-            </div>
-         </header>
-         <nav className={`flex flex-col fixed items-center py-2 gap-2 bg-slate-900 top-16 left-0 bottom-0 w-auto px-3 overflow-y-scroll`}>
-            {
-               [0, 1, 2, 3, 4].map((item, index) => {
-                  return (
-                     <div className="flex items-center gap-2">
-                        <div key={index} className="h-10 w-10 rounded-full overflow-hidden">
-                           <Image
-                              src="/kehan.png"
-                              alt="Kehan PFP"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              style={{ width: '100%', height: '100%' }}
-                           />
-                        </div>
-                        { isMenuExpanded && <p className="text-sm">Testusername</p> }
-                     </div>
-                  );
-               })
-            }
-         </nav>
-         {/*
-         <h1>Message board</h1>
-         <div className="border w-1/2 h-1/2 mb-5">
-            {messages.map((message, index) => (
-               <div key={index}>
-                  <p>{`${message.id}: ${message.text}`}</p>
+         <Header onClick={toggleMenu} />
+         <div className="double-grid w-full h-full">
+            <NavBar isMenuExpanded={isMenuExpanded} />
+            <main className="flex relative mt-16">
+               <div className="flex flex-col absolute top-0 left-0 right-0 bottom-24 p-5 gap-2 border">
+                  <p className="p-2 rounded-md text-lg w-fit bg-blue-600 self-end">Hi</p>
+                  <p className="p-2 rounded-md text-lg w-fit bg-green-600 self-start">Hello</p>
+                  <p className="p-2 rounded-md text-lg w-fit bg-orange-600 self-center">Notification 1</p>
                </div>
-            ))}
+               <form className="flex absolute justify-center py-2 bottom-8 left-0 right-0 gap-2" action={handleSubmit}>
+                  <input
+                     className="bg-slate-700 p-4 text-base rounded-md w-1/2 outline-none"
+                     name="text"
+                     type="text"
+                     autoFocus={true}
+                     placeholder="Send a message"
+                  />
+                  <button className="p-4 rounded-md bg-green-600 hover:opacity-80" type="submit">Send</button>
+                  <button className="p-4 rounded-md bg-red-600 hover:opacity-80" type="reset">Cancel</button>
+               </form>
+            </main>
          </div>
-         <form className="flex flex-col w-1/2" action={handleSubmit}>
-            <input className="text-black p-2" name="myMessage" type="text" />
-            <button type="submit">Send</button>
-         </form>
-         */}
-         {/*
-         <main className="flex flex-col items-center h-screen w-screen px-5">
-            <div className="border flex flex-col h-[90%] w-full p-1 gap-2 overflow-y-scroll">
-               <div className="p-2 rounded-md text-lg w-fit bg-blue-600 self-end">Hi</div>
-               <div className="p-2 rounded-md text-lg w-fit bg-green-600 self-start">Hello</div>
-               <div className="p-2 rounded-md text-lg w-fit bg-orange-600 self-center">Notification 1</div>
-            </div>
-            <form className="border flex justify-center items-center h-[10%] w-full">
-               <input className="w-4/5 p-1 rounded-md bg-transparent border" type="text" />
-               <button className="p-1 rounded-md border w-auto active:opacity-50" type="submit">Enter</button>
-               <button className="p-1 rounded-md border w-auto active:opacity-50" type="reset">Clear</button>
-            </form>
-         </main>
-         */}
       </div>
    );
 }

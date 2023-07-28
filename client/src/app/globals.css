@@ -10,4 +10,8 @@
       background-color: gray;
       border-radius: 1em;
    }
+   .double-grid {
+      display: grid;
+      grid-template-columns: min-content 1fr;
+   }
 }
