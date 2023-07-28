@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import io, { Socket } from 'socket.io-client';
 import Link from "next/link";
+import Image from "next/image";
 import 'material-icons/iconfont/material-icons.css';
 
 interface messagesData {
@@ -11,6 +12,8 @@ interface messagesData {
 
 export default function Home() {
    const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
+
+   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
    /*
    const [messages, setMessages] = useState<messagesData[]>([]);
    const [socket, setSocket] = useState<Socket | null>(null);
@@ -50,21 +53,54 @@ export default function Home() {
    */
    return (
       <div className="w-screen h-screen">
-         <header className="flex fixed items-center justify-between px-10 bg-slate-900 top-0 left-0 right-0 h-16">
+         <header className="flex fixed items-center justify-between px-3 bg-slate-900 top-0 left-0 right-0 h-16">
             <div className="flex items-center gap-3">
-               <button className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition">
+               <button
+                  onClick={() => setIsMenuExpanded(prevState => !prevState)}
+                  className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition"
+               >
                   <span className="material-icons">menu</span>
                </button>
                <p className="text-3xl">Chat Hall</p>
             </div>
             <div className="flex items-center gap-3">
-               <button className="h-10 w-10 rounded-full hover:bg-slate-700 active:bg-slate-600 transition">
-                  {/* Profile Link to /profile page */}
-                  P
-               </button>
+               <Link
+                  title="Profile"
+                  href="/profile"
+                  className="h-10 w-10 rounded-full overflow-hidden"
+               >
+                  <Image
+                     src="/kehan.png"
+                     alt="Kehan PFP"
+                     width={0}
+                     height={0}
+                     sizes="100vw"
+                     style={{ width: '100%', height: '100%' }}
+                  />
+               </Link>
             </div>
          </header>
-         <nav></nav>
+         <nav className={`flex flex-col fixed items-center py-2 gap-2 bg-slate-900 top-16 left-0 bottom-0 w-auto px-3 overflow-y-scroll`}>
+            {
+               [0, 1, 2, 3, 4].map((item, index) => {
+                  return (
+                     <div className="flex items-center gap-2">
+                        <div key={index} className="h-10 w-10 rounded-full overflow-hidden">
+                           <Image
+                              src="/kehan.png"
+                              alt="Kehan PFP"
+                              width={0}
+                              height={0}
+                              sizes="100vw"
+                              style={{ width: '100%', height: '100%' }}
+                           />
+                        </div>
+                        { isMenuExpanded && <p className="text-sm">Testusername</p> }
+                     </div>
+                  );
+               })
+            }
+         </nav>
          {/*
          <h1>Message board</h1>
          <div className="border w-1/2 h-1/2 mb-5">

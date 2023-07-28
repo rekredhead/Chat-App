@@ -26,9 +26,7 @@ export default function Login() {
          const responseMessage = await response.json();
          alert(responseMessage.message);
       } else {
-         redirect('/profile');// - replace link with chat page
-         //const responseMessage = await response.json();
-         //alert(responseMessage.message);
+         redirect('/');
       }
    }
 
