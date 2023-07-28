@@ -1,3 +1,12 @@
+/**
+ * POST /profiles/uploadProfilePicture => Gets the user's uploaded profile picture and saves it, renamed with their username, in profile_pictures/
+ * PUT /profiles/update => Updates the user's profile bio in the database
+ * GET /profiles/users => Sends a list of all usernames in the database
+ * GET /profiles/users/:username => Sends the username and bio of a specific user's profile data
+ * GET /profiles/users/me => Sends the current user's username and bio in the database.
+ *    It will create an empty dataset ( empty bio ) for the user in the profile table if they don't already have a profile saved
+ */
+
 const express = require('express');
 const path = require('path');
 const multer = require('multer');

@@ -1,3 +1,7 @@
+/**
+ * This is the chatSocket function where all interactions with the websocket is done.
+ */
+
 const { Server } = require('socket.io');
 
 module.exports = (server) => {

@@ -1,3 +1,13 @@
+/**
+ * POST /users/login => Login users to the app
+ * Request body: username, password
+ * 
+ * This file contains one API that checks if the user's entered login details match with the one in the database.
+ * A search query is done to check if the username is in the database. If not, it will send the respective error message to the client.
+ * Then it checks if the password matches with the encrypted password in the database. If not, it will send the respective error message to the client.
+ * Then it creates a session for the user containing their username and then sends an OK response to the client.
+ */
+
 const express = require('express');
 const bcrypt = require('bcrypt');
 const dbConnection = require('../database/dbConnection');

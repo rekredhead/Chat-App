@@ -1,3 +1,7 @@
+/**
+ * Use the websocket connection from chatSocket.js for this router to enable send and receive user messages without latency
+ */
+
 const express = require('express');
 const router = express.Router();
 const chatSocket = require('./chatSocket');
